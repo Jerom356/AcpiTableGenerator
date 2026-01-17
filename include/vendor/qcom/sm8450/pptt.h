@@ -4,14 +4,6 @@
 #include <stddef.h>
 #include <sys/cdefs.h>
 
-/* Platform specific configuration */
-#define NUM_CORES 8
-#define NUM_CLUSTERS 4
-#define NUM_SYSTEM 1
-#define L1_CACHES_COUNT 2 + 2
-#define L2_CACHES_COUNT 1
-#define L3_CACHES_COUNT 1
-
 #define SYSTEM_PRIVATE_RESOURCES_COUNT 2       // ID, L3 Cache
 #define CLUSTER_PRIVATE_RESOURCES_COUNT 1      // L2 Cache
 #define PHYSICAL_CPU_PRIVATE_RESOURCES_COUNT 2 // L1I, L1D
@@ -41,7 +33,7 @@ PPTT_START{
     // L1 Caches
     PPTT_DECLARE_SIMPLE_CACHE(2, PPTT_REFERENCE_CACHE(1)), // L1I
     PPTT_DECLARE_SIMPLE_CACHE(3, PPTT_REFERENCE_CACHE(1)), // L1D
-    
+
     // L1 Caches (L2 shared)
     PPTT_DECLARE_SIMPLE_CACHE(4, 0), // L1I
     PPTT_DECLARE_SIMPLE_CACHE(5, 0), // L1D
@@ -55,22 +47,21 @@ PPTT_START{
     // Cluster 0 (2 cores)
     //  - parents: System
     //  - private resources: none
-    PPTT_DECLARE_PROCESSOR_HIERARCHY_CLUSTER(0, 0, PPTT_REFERENCE_SYSTEM, 
+    PPTT_DECLARE_PROCESSOR_HIERARCHY_CLUSTER(0, 0, PPTT_REFERENCE_SYSTEM,
                                              PPTT_REFERENCE_CACHE(1)),
     // Cluster 1 (2 cores)
     //  - parents: System
     //  - private resources: none
-    PPTT_DECLARE_PROCESSOR_HIERARCHY_CLUSTER(1, 0, PPTT_REFERENCE_SYSTEM, 
+    PPTT_DECLARE_PROCESSOR_HIERARCHY_CLUSTER(1, 0, PPTT_REFERENCE_SYSTEM,
                                              PPTT_REFERENCE_CACHE(1)),
     // Cluster 2 (3 cores)
     //  - parents: System
     //  - private resources: none
-    PPTT_DECLARE_PROCESSOR_HIERARCHY_CLUSTER(2, 0, PPTT_REFERENCE_SYSTEM), 
+    PPTT_DECLARE_PROCESSOR_HIERARCHY_CLUSTER(2, 0, PPTT_REFERENCE_SYSTEM),
     // Cluster 3 (1 core)
     //  - parents: System
     //  - private resources: none
     PPTT_DECLARE_PROCESSOR_HIERARCHY_CLUSTER(3, 0, PPTT_REFERENCE_SYSTEM),
-
 
     // Physical CPUs
     // Cluster 0 CPUs (2 cores)
