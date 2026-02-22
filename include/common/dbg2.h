@@ -99,7 +99,8 @@ enum DBG2_DEBUG_PORT_SUBTYPE_NET {
                  "DBG2_DEBUG_DEVICE_INFO_STRUCTURE_" #name " size incorrect");
 
 #define DBG2_DEFINE_DEBUG_DEVICE_INFO_STRUCTURE(                               \
-    name, num_of_generic_addr_regs, namespacestr_len, oemdata_len)             \
+    name, num_of_generic_addr_regs, namespacestr_len, oemdata_cnt,             \
+    oemdata_struct)                                                            \
   typedef struct {                                                             \
     UINT8 Revision;                                                            \
     UINT16 Length;                                                             \
@@ -116,10 +117,11 @@ enum DBG2_DEBUG_PORT_SUBTYPE_NET {
     ACPI_GAS BaseAddrRegister[num_of_generic_addr_regs];                       \
     UINT32 AddressSize[num_of_generic_addr_regs];                              \
     CHAR8 NamespaceString[namespacestr_len];                                   \
-    UINT8 OemData[oemdata_len];                                                \
+    oemdata_struct OemData[oemdata_cnt];                                       \
   } __attribute__((packed)) DBG2_DEBUG_DEVICE_INFO_STRUCTURE_##name;           \
-  DEBUG_DEVICE_INFO_STRUCTURE_SIZE_CHECK(name, num_of_generic_addr_regs,       \
-                                         namespacestr_len, oemdata_len);
+  DEBUG_DEVICE_INFO_STRUCTURE_SIZE_CHECK(                                      \
+      name, num_of_generic_addr_regs, namespacestr_len,                        \
+      oemdata_cnt * sizeof(oemdata_struct));
 
 #define DBG2_DEFINE_TABLE(...)                                                 \
   typedef struct {                                                             \
